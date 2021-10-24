@@ -125,9 +125,6 @@ while True:
             mouse_Y = event.pos[0]
             clicked_row = int(mouse_X // 200)
             clicked_col = int(mouse_Y // 200)
-            # print(mouse_X, mouse_Y)
-            # print(clicked_row, clicked_col)
-
             if available_square(clicked_row, clicked_col):
                 mark_square(clicked_row, clicked_col, player)
             if player == 1:
