@@ -55,20 +55,31 @@ def declare_winner(player):
     import time
     screen.fill(BG_COL)
     font = pygame.font.Font('freesansbold.ttf', 32)
-    text = font.render('Player '+str(int(player))+" wins !", False, (0, 0, 0))
+    if winner != 3:
+        text = font.render('Player '+str(int(player))+" wins !", False, (0, 0, 0))
+    else:
+        text = font.render("Draw", False, (0, 0, 0))
     screen.blit(text, (200, 200))
     pygame.display.update()
-    time.sleep(0.5)
+    time.sleep(1)
 
 def mark_square(row, col, player):
     board[row][col] = player
 
-
 def available_square(row, col):
     return board[row][col] == 0
 
+def board_fill():
+    print(board)
+    for i in range(0, 3):
+        for j in range(0, 3):
+            if board[i][j] == 0:
+                return 0
+    return 1
 
 def get_winner():
+    if board_fill() == 1:
+        return 3
     # check diagonal
     winner = board[1][1]
     flag = 0
@@ -100,10 +111,12 @@ def get_winner():
         winner = board[0][i]
         flag = 0
         for j in range(0, 3):
+            print(winner, board[j][i])
             if board[j][i] != winner:
                 flag = 1
         if flag == 0 and winner != 0:
             return winner
+    winner = 0
     return winner
 
 
