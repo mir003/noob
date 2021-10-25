@@ -60,7 +60,6 @@ def declare_winner(player):
     pygame.display.update()
     time.sleep(0.5)
 
-# declare_winner()
 def mark_square(row, col, player):
     board[row][col] = player
 
