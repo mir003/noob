@@ -1,3 +1,5 @@
+from cProfile import label
+
 import pygame
 import sys
 import numpy as np
@@ -49,18 +51,16 @@ def draw_figures():
                                  (col * 200 + 200 - 55, row * 200 + 200 - 55),
                                  CROSS_WIDTH)
 
-# white = (255, 255, 255)
-# green = (0, 255, 0)
-# blue = (0, 0, 128)
-# def declare_winner(player):
-#     font = pygame.font.Font('freesansbold.ttf', 32)
-#     text = font.render('Congratulations', True, green, blue)
-#     textRect = text.get_rect()
-#     textRect.center = (X // 2, Y // 2)
-#     screen.fill(RED)
-#     display_surface.blit(text, textRect)
+def declare_winner(player):
+    import time
+    screen.fill(BG_COL)
+    font = pygame.font.Font('freesansbold.ttf', 32)
+    text = font.render('Player '+str(int(player))+" wins !", False, (0, 0, 0))
+    screen.blit(text, (200, 200))
+    pygame.display.update()
+    time.sleep(0.5)
 
-
+# declare_winner()
 def mark_square(row, col, player):
     board[row][col] = player
 
@@ -70,7 +70,6 @@ def available_square(row, col):
 
 
 def get_winner():
-    print(board)
     # check diagonal
     winner = board[1][1]
     flag = 0
@@ -78,7 +77,6 @@ def get_winner():
         if board[i][i] != winner:
             flag = 1
     if flag == 0 and winner != 0:
-        print("winner is player: ", winner)
         return winner
     flag = 0
     j = 2
@@ -87,7 +85,6 @@ def get_winner():
             flag = 1
         j -= 1
     if flag == 0 and winner != 0:
-        print("winner is player: ", winner)
         return winner
     flag = 0
     # horizontal check
@@ -98,7 +95,6 @@ def get_winner():
             if board[i][j] != winner:
                 flag = 1
         if flag == 0 and winner != 0:
-            print("winner is player: ", winner)
             return winner
     # vertical check
     for i in range(0, 3):
@@ -108,7 +104,6 @@ def get_winner():
             if board[j][i] != winner:
                 flag = 1
         if flag == 0 and winner != 0:
-            print("winner is player: ", winner)
             return winner
     return winner
 
@@ -118,7 +113,9 @@ player = 1
 
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or get_winner() != 0:
+        winner = get_winner()
+        if event.type == pygame.QUIT or winner != 0:
+            declare_winner(winner)
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_X = event.pos[1]
